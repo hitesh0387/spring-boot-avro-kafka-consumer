@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.5.10'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+group 'com.hnp.example'
+version '1.0-SNAPSHOT'
+targetCompatibility = '17'
+sourceCompatibility = '17'
+
+repositories {
+    gradlePluginPortal()
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url "https://packages.confluent.io/maven/"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+ext {
+    lombokVersion = '1.18.24'
+    jacksonVersion = '2.13.3'
+}
+
+dependencies {
+    // Spring Dependencies
+    implementation "org.springframework.boot:spring-boot-starter"
+    implementation "org.springframework.kafka:spring-kafka"
+
+    implementation "com.hnp:avro-schema:1.0-SNAPSHOT"
+
+    // Lombok Dependencies
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    // Avro dependencies
+    implementation 'org.apache.avro:avro:1.11.0'
+    implementation 'org.apache.kafka:kafka-clients:3.1.0'
+    implementation 'io.confluent:kafka-avro-serializer:3.2.1'
+
+    // Jackson dependencies
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+    implementation group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version: '1.9.13'
+
+}
+
+test {
+    useJUnitPlatform()
+}
